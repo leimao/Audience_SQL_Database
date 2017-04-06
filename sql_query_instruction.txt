@@ -1,0 +1,75 @@
+# Some basic SQL operations
+
+# https://www.w3schools.com/sql/default.asp
+# https://technet.microsoft.com/en-us/library/bb264565(v=sql.90).aspx
+
+# Use WHERE clause to query basic customer information
+SELECT * 
+FROM Customer_Data
+WHERE Name == 'ÎÄÀöÆ¼';
+
+# Use ORDER to sort the data
+SELECT *
+FROM Customer_Data
+ORDER BY Age ASC;
+
+# Use LIMIT to select certain pool of candidates
+SELECT *
+FROM Customer_Data
+WHERE Age > 20
+ORDER BY Age DESC
+LIMIT 3;
+
+# USE COUNT(), SUM(), AVG() to calculate
+SELECT COUNT(Name)
+FROM Customer_Data
+WHERE Age > 50;
+
+SELECT AVG(Age)
+FROM Customer_Data;
+
+SELECT SUM(Expense)
+FROM Project_Participants;
+
+# Use IN syntax
+SELECT Project_Name
+FROM Project_Data
+WHERE Region IN ('¹úÄÚ', '½ü½¼');
+
+# Table interactions
+
+# Use INNER JOIN to find all customers' expense history
+SELECT Customer_Data.Customer_ID, Customer_Data.Name, Project_Participants.Expense
+FROM Customer_Data
+INNER JOIN Project_Participants ON Customer_Data.Customer_ID = Project_Participants.Customer_ID;
+
+# Use INNER JOIN to find all customers' friends
+SELECT vm.Customer_ID, vm.Name, v.Name
+FROM Customer_Data AS v
+INNER JOIN
+(SELECT Customer_Data.Customer_ID, Customer_Data.Name, Friends_Relation.Friends_ID
+FROM Customer_Data
+INNER JOIN Friends_Relation ON Customer_Data.Customer_ID = Friends_Relation.Customer_ID) AS vm
+ON v.Customer_ID = vm.Friends_ID
+WHERE vm.Name = 'ÍõÑ©·å';
+
+# Calculate certain customer's total expense
+SELECT Customer_Data.Customer_ID, Customer_Data.Name, Project_Participants.Expense
+FROM Customer_Data
+INNER JOIN Project_Participants ON Customer_Data.Customer_ID = Project_Participants.Customer_ID
+WHERE Name = 'ºîÆ¼';
+
+SELECT vm.Name, SUM(vm.Expense)
+FROM
+(SELECT Customer_Data.Customer_ID, Customer_Data.Name, Project_Participants.Expense
+FROM Customer_Data
+INNER JOIN Project_Participants ON Customer_Data.Customer_ID = Project_Participants.Customer_ID) as vm
+GROUP BY vm.Name;
+
+SELECT vm.Name, SUM(vm.Expense)
+FROM
+(SELECT Customer_Data.Customer_ID, Customer_Data.Name, Project_Participants.Expense
+FROM Customer_Data
+INNER JOIN Project_Participants ON Customer_Data.Customer_ID = Project_Participants.Customer_ID) as vm
+WHERE vm.Name = 'ºîÆ¼'
+GROUP BY vm.Name;

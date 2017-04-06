@@ -1,0 +1,2 @@
+customer_ID	name	gender	ID	passport	contact	project	expense	spouse_ID	children_ID	relatives_ID	friends_ID	notes		
+3	王雪峰	女	210202196688888888		13988888888	20170325	178				"4, 5, 6, 7, 8"	
